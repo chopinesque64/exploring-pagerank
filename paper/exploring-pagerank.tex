@@ -1,0 +1,65 @@
+\documentclass[11pt,letterpaper]{amsart}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{subfiles}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{subfigure}
+\usepackage[hang]{footmisc}
+
+\setlength{\footnotemargin}{2.5mm}
+\usetikzlibrary{shapes,automata,arrows}
+\graphicspath{{images/}{../images/}}
+\setcounter{tocdepth}{1}
+
+\newcommand{\transpose}[1]{#1^{\mathsf{T}}}
+\newcommand{\inverse}[1]{#1^{-1}}
+\newcommand{\iterate}[2]{#1^{(#2)}}
+\newcommand{\parens}[1]{ \left( #1 \right) }
+\newcommand{\prob}{\mathbb{P}}
+\renewcommand{\thesubtable}{\Roman{subtable}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Null}{null}
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\title{Exploring PageRank}
+\author{Nathanael Gentry}
+\date{30 April 2019}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+\subfile{sections/1-introduction}
+
+\section{First Steps}
+\subfile{sections/2-first-steps}
+
+\section{Markov Chains}
+\subfile{sections/3-markov-chains}
+
+\section{Perron-Frobenius Theory}
+\subfile{sections/4-perron-frobenius}
+
+\section{Limiting Distributions}
+\subfile{sections/5-limiting-distributions}
+
+\section{The Google Matrix}
+\subfile{sections/6-google-matrix}
+
+\section{Network Topology}
+\subfile{sections/7-network-topology}
+
+\section{Further Investigations}
+\subfile{sections/8-conclusion}
+
+\newpage
+\bibliographystyle{ieeetr}
+\bibliography{references}
+\end{document}
