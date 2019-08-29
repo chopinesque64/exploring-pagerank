@@ -14,13 +14,13 @@
 			thick,
 			fill = white,
 			minimum size = 4mm]
-		
+
 			\node[state] (a) {$p_1$};
 			\node[state] (b) [above right of=a] {$p_2$};
 			\node[state] (c) [right of=a] {$p_3$};
 			\node[state] (d) [below right of=a] {$p_4$};
 			\node[state] (e) [right of=c] {$p_5$};
-		
+
 			\path[->] (a) edge node {} (b);
 			\path[->] (a) edge node {} (d);
 			\path[->] (a) edge node {} (c);
@@ -35,11 +35,11 @@
 		\caption{A Miniscule Web}
 		\label{fig:web}
 	\end{figure}
-	Consider a digraph $\mathcal{W}$, such as that given in Figure \ref{fig:web}. Each vertex $p$ represents a Web page, and each edge represents the existence of at least one hyperlink between pages $p_i$ and $p_j$. We seek to calculate the importance of a Web page, and we can view a hyperlink to that page as an endorsement of importance from the linking page. The more endorsements a page has, the more important it should be; thus, the closer it should be to the top of the search results. However, if a page is not very selective of its endorsements, they should be less prestigious than those given by a more discriminating page. The endorsements of importance imparted by a Web page should be distributed evenly across those it endorses. We now formalize this intuition. Let $N^-_i$ represent the set of $p_i$'s predecessors, and let $N^+_i$ represent the set of $p_i$'s successors. Note that $|N^+_i|$ gives the out-degree of $p_i$. We thus define the importance score $\pi_i$ of a page $p_i$:
+	Consider a digraph $\mathcal{W}$, such as that given in Figure \ref{fig:web}. Each vertex $p$ represents a Web page, and each edge represents the existence of at least one hyperlink between pages $p_i$ and $p_j$. We seek to calculate the importance of a Web page, and we can view a hyperlink to that page as an endorsement of importance from the linking page. The more such votes of support a page has, the more important it probably is; thus, the closer it should be to the top of the search results. However, if a page is not very selective with its votes, then thsoe votes should be less prestigious than those given by a more discriminating page. Finally, it makes sense that the votes of importance imparted by a Web page should be distributed evenly across the pages it endorses. We now formalize this intuition. Let $N^-_i$ represent the set of $p_i$'s predecessors, and let $N^+_i$ represent the set of $p_i$'s successors. Note that $|N^+_i|$ gives the out-degree of $p_i$. We thus define the importance score $\pi_i$ of a page $p_i$:
  	\begin{equation}\label{eqn:pi_i}
  		\pi_i = \sum_{p_j\in N^-_i}{\frac{\pi_j}{|N^+_i|}}.
  	\end{equation}
- 	
+
     Equation \eqref{eqn:pi_i} gives an impredicative definition of an importance score.\footnote{Logicians disagree about the distinction between \textit{recursion} and \textit{impredicativity}. In this paper, we take recursion to be constructive -- that is, recursion builds a class by feeding the results of a generator into itself. Impredicativity, however, defines an impredicative object $X$ as an instantiation of a class which itself contains $X$. Equation \eqref{eqn:pi_i} thus gives an impredicative definition of $\pi_i$.} We store all the $\pi_i$ in a vector $\pi$, which we take henceforth as a row vector.\footnote{Some authors denote row vectors by transposing a column vector every time, but we have found this notation wearying. In this paper the probability distribution $\pi$ will always be given by a row vector, without indication of transposition.} Take some initial score vector $\iterate{\pi}{0}$, say a uniform distribution $\pi = [1/|\mathcal{W}|]$. Then, we define an iterative calculation for an iterator $t\geq 1$ to refine the initial distribution:
  	 \begin{equation}
  	    \label{eqn:pi_t}
@@ -52,12 +52,11 @@
  			0, & \text{otherwise}.
  		\end{cases}
  	\end{equation*}
- 	
  	Thus, we have the following iterative calculation:
  	\begin{equation}
  	    \iterate{\pi}{k+1} = \iterate{\pi}{k} H.
  	\end{equation}
-    The hyperlink matrix gives an adjacency matrix of $\mathcal{W}$ modified to ensure each nonzero row provides a probability distribution. By construction, $H$ is nonnegative; that is, $H_{ij}\geq 0$ for all components.
+    The hyperlink matrix gives an adjacency matrix of $\mathcal{W}$ modified to ensure that each nonzero row provides a probability distribution. By construction, $H$ is nonnegative; that is, $H_{ij}\geq 0$ for all components.
     \begin{figure}[t!]
         \centering
         \begin{subfigure}
@@ -90,5 +89,7 @@
         \label{fig:example_calculation}
         \end{subfigure}
     \end{figure}
-    Figures \ref{fig:hyperlink} and \ref{fig:example_calculation} show the hyperlink matrix and some iterative calculations for the digraph given in Figure \ref{fig:web}. We simply rank the pages by the distribution given in $\pi$ Observe that $p_2$ has the highest rank, as most other pages point into it and it only links to one page. However, this page $p_5$ also receives a high score, since an important page directly links to it. Our na{\"i}ve approach shuts out $p_1$ and $p_4$ entirely, which destroys the uniqueness of the ranking. There are other problems with our formulation. Note that the zero rows of $H$ correspond to dangling pages, i.e. vertices with zero out-degree. These rank sinks will break our current calculation, but we cannot simply exclude them. Some sinks -- for instance, published documents -- might be highly cited and quite important. Consider also the trouble posed by cyclic graphs, which would eternally shift their importance around their cycles. If we continued the iterative calculation in Figure \ref{fig:example_calculation}, we would find the scores of $p_2$ and $p_5$ keep oscillating as $k\to\infty$. We will discuss the problem of cyclicity later, but we easily fix can rank sinks by making $H$ fully row-stochastic.
+    Figures \ref{fig:hyperlink} and \ref{fig:example_calculation} show the hyperlink matrix and some iterative calculations for the digraph given in Figure \ref{fig:web}. We simply rank the pages by the distribution given in $\pi$.
+
+    Observe that $p_2$ has the highest rank, as most other pages point into it and it only links to one page. However, this page $p_5$ also receives a high score, since an important page directly links to it. Our na{\"i}ve approach shuts out $p_1$ and $p_4$ entirely, which destroys the uniqueness of the ranking. There are other problems with our formulation. Note that the zero rows of $H$ correspond to dangling pages, i.e. vertices with zero out-degree. These rank sinks will break our current calculation, but we cannot simply exclude them. Some sinks -- for instance, published PDF documents -- might be highly cited and quite important. Consider also the trouble posed by cyclic graphs, which would eternally shift their importance around their cycles. If we continued the iterative calculation in Figure \ref{fig:example_calculation}, we would find the scores of $p_2$ and $p_5$ keep oscillating as the number of iterations grew. We will discuss the problem of cyclicity later, but we easily fix can rank sinks by making $H$ fully row-stochastic.
 \end{document}
