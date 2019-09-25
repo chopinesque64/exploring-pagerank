@@ -37,20 +37,20 @@
 
 
 \section{Motivation}
-In 1998, two Stanford students -- Sergey Brin and Larry Page -- endavored to
-bring order to the World Wide Web. Even in 1995, the public Internet
-contained about 2.5 million pages \cite{TotalNumberWebsites}, but search
-techniques relied upon classical strategies for collections much smaller and
-less interconnected than the nascent Internet. The students’ graduate project,
-then hosted at \texttt{google.stanford.edu}, did not rely on simple
-heuristics like URL length or date of publication; their program used the link
-structure of the Web itself to decide how relevant a page was to a user's query.
-Brin and Page thus defined their problem as a problem of spectral ranking, or
-eigencentrality. Spectral ranking provides a tractable definition of an entity's
-relative \textit{importance} within a collection and thus gives an excellent
-heuristic for its relevance in a search query. In this paper, we explore the
-foundation of the Google enterprise: PageRank, the algorithm that provides a
-spectral ranking of all pages on the indexed Web.
+In 1995, the public Internet contained about 2.5 million pages
+\cite{TotalNumberWebsites}, but search techniques relied upon classical
+strategies for collections much smaller and less interconnected than the nascent
+Internet. By 1998, two Stanford students -- Sergey Brin and Larry Page --
+endeavored to bring order to the Web. The students’ graduate project, then hosted at
+\texttt{google.stanford.edu}, did not rely on simple heuristics like URL length
+or date of publication; their program used the link structure of the Web itself
+to decide how relevant a page was to a user's query. Brin and Page thus defined
+their problem as a problem of spectral ranking, or eigencentrality. Spectral
+ranking provides a tractable definition of an entity's relative
+\textit{importance} within a collection and thus gives an excellent heuristic
+for its relevance in a search query. In this paper, we explore the foundation of
+the Google enterprise: PageRank, the algorithm that provides a spectral ranking
+of all pages on the indexed Web.
 
 
 
@@ -260,7 +260,7 @@ $i, j \in \Omega$. Then, observe the following:
 \end{align*}
 From this result, we derive the Chapman-Kolmogorov equations:
 \begin{equation}
-  \iterate{p}{m+n}_{ij} = \sum_{k\leq |\Omega|}{\parens{\iterate{p}{n}_{ik} \iterate{p}{m}_{kj}}}
+  \iterate{p}{m+n}_{ij} = \sum_{k\leq |\Omega|}{\parens{\iterate{p}{n}_{ik} \iterate{p}{m}_{kj}}}.
 \end{equation}
 
 We will denote the $k$-step transition probability from state $s_i$ to $s_j$ by
